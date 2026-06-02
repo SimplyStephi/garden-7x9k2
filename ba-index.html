@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Birthday Arcana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Ephesis&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0a0710;--vellum:#e9dcc4;--gold:#c9a86a;--gold-bright:#e6c987;--mist:#b7a9bd}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:
+      radial-gradient(ellipse at 50% -10%, #1d1326 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 110%, #1a1020 0%, transparent 50%),
+      linear-gradient(160deg,#0a0710 0%,#0c0814 50%,#080510 100%);
+    color:var(--vellum);font-family:'Cormorant Garamond',serif;min-height:100vh;overflow-x:hidden;padding:60px 22px 80px;position:relative}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;box-shadow:inset 0 0 220px 60px rgba(0,0,0,0.7)}
+  .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto}
+
+  header{text-align:center;margin-bottom:38px;animation:fadeUp 1s ease both}
+  .kicker{font-family:'Cinzel',serif;letter-spacing:.42em;font-size:.7rem;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:16px;padding-left:.42em}
+  h1{font-family:'Cinzel',serif;font-weight:800;font-size:clamp(2.4rem,6.5vw,4.6rem);line-height:.96;letter-spacing:.04em;text-shadow:0 2px 30px rgba(201,168,106,.25)}
+  .sub{font-family:'Ephesis',cursive;font-size:clamp(1.6rem,4vw,2.5rem);color:var(--gold-bright);margin-top:4px}
+  .dates{font-family:'Cinzel',serif;letter-spacing:.32em;font-size:.74rem;text-transform:uppercase;color:var(--mist);margin-top:16px}
+  .dates b{color:var(--gold-bright);font-weight:600}
+  .divider{display:flex;align-items:center;justify-content:center;gap:18px;margin:26px auto 0;max-width:520px}
+  .divider .line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+  .divider svg{width:30px;height:30px;color:var(--gold);opacity:.9}
+  .how{max-width:560px;margin:30px auto 46px;text-align:center;font-size:1.18rem;line-height:1.55;color:var(--vellum);opacity:.92;animation:fadeUp 1s .1s ease both}
+  .how b{font-family:'Cinzel',serif;font-weight:600;font-size:.92rem;letter-spacing:.06em;color:var(--gold-bright)}
+  .how .step{display:block;margin:8px 0}
+  .how .num{color:var(--gold);font-family:'Cinzel',serif;font-size:.9rem;margin-right:6px}
+
+  .hero-wrap{max-width:300px;margin:0 auto 50px;animation:fadeUp 1s .15s ease both}
+  .crown-label{text-align:center;margin-bottom:12px}
+  .crown-label .crown{width:40px;height:40px;color:var(--gold-bright);filter:drop-shadow(0 0 10px rgba(231,104,155,.5))}
+  .crown-label .bd{font-family:'Cinzel',serif;letter-spacing:.3em;font-size:.62rem;text-transform:uppercase;color:#e7689b;margin-top:4px}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:600px;margin:0 auto}
+
+  .card{--accent:#fff;display:block;width:100%;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(10,7,16,.4));
+    border:1px solid rgba(255,255,255,.09);border-radius:15px;padding:32px 22px 26px;cursor:pointer;text-align:center;
+    color:inherit;font-family:inherit;position:relative;overflow:hidden;box-shadow:inset 0 0 30px rgba(0,0,0,.45);
+    transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s;animation:fadeUp .9s ease both}
+  .card::before{content:"";position:absolute;inset:0;border-radius:15px;pointer-events:none;background:radial-gradient(ellipse at 50% 0%, var(--accent), transparent 72%);opacity:.1;transition:opacity .5s}
+  .card:hover,.card:focus-visible{transform:translateY(-7px);border-color:color-mix(in srgb,var(--accent) 55%,transparent);box-shadow:0 18px 50px rgba(0,0,0,.5),0 0 38px color-mix(in srgb,var(--accent) 24%,transparent);outline:none}
+  .card:hover::before,.card:focus-visible::before{opacity:.2}
+  .card:hover .bloom{transform:scale(1.05) rotate(-2deg)}
+  .bloom{width:104px;height:104px;color:var(--accent);margin:0 auto 12px;transition:transform .6s ease;animation:float 8s ease-in-out infinite;display:block}
+  .hero-wrap .bloom{width:122px;height:122px}
+  .card h3{font-family:'Cinzel',serif;font-weight:600;font-size:1.5rem;letter-spacing:.06em;color:var(--vellum)}
+  .card .flower-name{font-family:'Ephesis',cursive;font-size:1.5rem;color:var(--accent);margin-top:-2px}
+  .card .swatch{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist)}
+  .swatch .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+  .card .hint{margin-top:16px;font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.7}
+  .card:nth-child(1){animation-delay:.22s}.card:nth-child(2){animation-delay:.3s}.card:nth-child(3){animation-delay:.38s}
+  .card:nth-child(4){animation-delay:.46s}.card:nth-child(5){animation-delay:.54s}.card:nth-child(6){animation-delay:.62s}
+
+  footer{text-align:center;margin-top:58px;animation:fadeUp 1s .7s ease both}
+  footer .line{width:160px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 16px}
+  footer p{font-style:italic;color:var(--mist);font-size:1.05rem;letter-spacing:.03em}
+
+  @media (max-width:560px){
+    body{padding:48px 16px 70px}
+    .grid{gap:14px;max-width:440px}
+    .grid .card{padding:24px 12px 20px}
+    .grid .card .bloom{width:88px;height:88px}
+    .grid .card h3{font-size:1.3rem}
+    .grid .card .flower-name{font-size:1.3rem}
+    .grid .card .swatch{margin-top:10px}
+    .grid .card .hint{margin-top:12px}
+  }
+
+  .reveal{--accent:#e7689b;position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
+    padding:54px 24px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .55s ease;
+    background:
+      radial-gradient(ellipse at 50% 28%, color-mix(in srgb,var(--accent) 24%, transparent) 0%, transparent 62%),
+      radial-gradient(ellipse at 50% 120%, color-mix(in srgb,var(--accent) 14%, transparent) 0%, transparent 60%),
+      linear-gradient(160deg,#0a0710,#0c0814 55%,#080510)}
+  .reveal::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+  .reveal.active{opacity:1;pointer-events:auto}
+  .reveal-back{position:absolute;top:22px;left:22px;z-index:2;background:none;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
+    color:var(--vellum);font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+    padding:11px 18px;border-radius:40px;cursor:pointer;transition:background .4s,border-color .4s}
+  .reveal-back:hover{background:color-mix(in srgb,var(--accent) 16%,transparent);border-color:var(--accent)}
+  .reveal-inner{position:relative;z-index:1;text-align:center;max-width:560px;transform:scale(.93);opacity:.4;transition:transform .65s cubic-bezier(.2,.8,.2,1),opacity .5s}
+  .reveal.active .reveal-inner{transform:scale(1);opacity:1}
+  .reveal-bloom{width:150px;height:150px;color:var(--accent);margin:0 auto 6px;animation:float 7s ease-in-out infinite;filter:drop-shadow(0 0 26px color-mix(in srgb,var(--accent) 45%,transparent))}
+  .reveal-who{font-family:'Ephesis',cursive;font-size:2rem;color:var(--accent);margin-bottom:18px}
+  .r-label{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:10px}
+  .reveal-card{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(2rem,6vw,3.3rem);line-height:1;color:var(--vellum);text-shadow:0 0 30px color-mix(in srgb,var(--accent) 50%,transparent);min-height:1.1em}
+  .reveal-fortune{font-style:italic;font-size:clamp(1.2rem,3.4vw,1.65rem);line-height:1.4;color:var(--vellum);opacity:.94;margin:16px auto 0;max-width:440px;min-height:1.4em}
+  .reveal-div{display:flex;align-items:center;justify-content:center;gap:14px;margin:32px auto;max-width:300px}
+  .reveal-div .l{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+  .reveal-div svg{width:22px;height:22px;color:var(--accent)}
+  .reveal-to{font-family:'Ephesis',cursive;font-size:clamp(2.6rem,8vw,4rem);line-height:1;color:var(--accent);min-height:1em;text-shadow:0 0 28px color-mix(in srgb,var(--accent) 45%,transparent)}
+  .reveal-note{font-style:italic;font-size:1.18rem;color:color-mix(in srgb,var(--accent) 34%, var(--vellum));margin:8px auto 0;max-width:430px;line-height:1.4}
+  .reveal-instr{font-family:'Cinzel',serif;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--vellum);opacity:.7;margin-top:26px;line-height:1.7}
+  .reveal.landed .reveal-card,.reveal.landed .reveal-to{animation:settle .6s ease both}
+  .reveal.landed .reveal-fortune,.reveal.landed .reveal-instr{animation:fadeUp .6s .1s ease both}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes settle{0%{transform:scale(.85);opacity:.35}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:opacity .3s!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="fl-morningglory" viewBox="0 0 120 120">
+    <path d="M60 20 C36 20 22 40 22 60 C22 86 44 100 60 100 C76 100 98 86 98 60 C98 40 84 20 60 20 Z" fill="currentColor" opacity=".16"/>
+    <path d="M60 24 C40 24 27 41 27 60 C27 83 46 96 60 96 C74 96 93 83 93 60 C93 41 80 24 60 24 Z" fill="none" stroke="currentColor" stroke-width="2.6"/>
+    <g stroke="currentColor" stroke-width="1.7" opacity=".55" stroke-linecap="round"><path d="M60 60 L60 28"/><path d="M60 60 L88 45"/><path d="M60 60 L86 80"/><path d="M60 60 L42 90"/><path d="M60 60 L30 68"/></g>
+    <circle cx="60" cy="60" r="6.5" fill="currentColor"/></symbol>
+  <symbol id="fl-peony" viewBox="0 0 120 120"><g fill="currentColor">
+    <g opacity=".28"><ellipse cx="60" cy="26" rx="13" ry="26" transform="rotate(0 60 60)"/><ellipse cx="60" cy="26" rx="13" ry="26" transform="rotate(45 60 60)"/><ellipse cx="60" cy="26" rx="13" ry="26" transform="rotate(90 60 60)"/><ellipse cx="60" cy="26" rx="13" ry="26" transform="rotate(135 60 60)"/><ellipse cx="60" cy="26" rx="13" ry="26" transform="rotate(180 60 60)"/><ellipse cx="60" cy="26" rx="13" ry="26" transform="rotate(225 60 60)"/><ellipse cx="60" cy="26" rx="13" ry="26" transform="rotate(270 60 60)"/><ellipse cx="60" cy="26" rx="13" ry="26" transform="rotate(315 60 60)"/></g>
+    <g opacity=".5"><ellipse cx="60" cy="38" rx="10" ry="19" transform="rotate(22 60 60)"/><ellipse cx="60" cy="38" rx="10" ry="19" transform="rotate(82 60 60)"/><ellipse cx="60" cy="38" rx="10" ry="19" transform="rotate(142 60 60)"/><ellipse cx="60" cy="38" rx="10" ry="19" transform="rotate(202 60 60)"/><ellipse cx="60" cy="38" rx="10" ry="19" transform="rotate(262 60 60)"/><ellipse cx="60" cy="38" rx="10" ry="19" transform="rotate(322 60 60)"/></g>
+    <g opacity=".85"><ellipse cx="60" cy="49" rx="7" ry="12" transform="rotate(0 60 60)"/><ellipse cx="60" cy="49" rx="7" ry="12" transform="rotate(72 60 60)"/><ellipse cx="60" cy="49" rx="7" ry="12" transform="rotate(144 60 60)"/><ellipse cx="60" cy="49" rx="7" ry="12" transform="rotate(216 60 60)"/><ellipse cx="60" cy="49" rx="7" ry="12" transform="rotate(288 60 60)"/></g>
+    <circle cx="60" cy="60" r="6"/></g></symbol>
+  <symbol id="fl-lily" viewBox="0 0 120 120">
+    <g fill="currentColor"><path d="M60 60 C51 36 56 18 60 11 C64 18 69 36 60 60 Z" transform="rotate(0 60 60)"/><path d="M60 60 C51 36 56 18 60 11 C64 18 69 36 60 60 Z" transform="rotate(60 60 60)"/><path d="M60 60 C51 36 56 18 60 11 C64 18 69 36 60 60 Z" transform="rotate(120 60 60)"/><path d="M60 60 C51 36 56 18 60 11 C64 18 69 36 60 60 Z" transform="rotate(180 60 60)"/><path d="M60 60 C51 36 56 18 60 11 C64 18 69 36 60 60 Z" transform="rotate(240 60 60)"/><path d="M60 60 C51 36 56 18 60 11 C64 18 69 36 60 60 Z" transform="rotate(300 60 60)"/></g>
+    <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".75"><path d="M60 60 L60 40"/><path d="M60 60 L74 50"/><path d="M60 60 L46 50"/></g>
+    <g fill="currentColor"><circle cx="60" cy="38" r="2.6"/><circle cx="75" cy="48" r="2.6"/><circle cx="45" cy="48" r="2.6"/></g></symbol>
+  <symbol id="fl-rose" viewBox="0 0 120 120">
+    <g fill="currentColor" opacity=".22"><path d="M60 60 C36 52 32 28 60 18 C88 28 84 52 60 60 Z" transform="rotate(0 60 60)"/><path d="M60 60 C36 52 32 28 60 18 C88 28 84 52 60 60 Z" transform="rotate(72 60 60)"/><path d="M60 60 C36 52 32 28 60 18 C88 28 84 52 60 60 Z" transform="rotate(144 60 60)"/><path d="M60 60 C36 52 32 28 60 18 C88 28 84 52 60 60 Z" transform="rotate(216 60 60)"/><path d="M60 60 C36 52 32 28 60 18 C88 28 84 52 60 60 Z" transform="rotate(288 60 60)"/></g>
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M60 78 C44 78 38 64 44 52 C49 41 64 39 70 49 C76 59 68 70 58 68 C50 66 49 57 55 53"/><path d="M44 52 C40 44 46 34 56 32"/><path d="M70 49 C78 46 84 54 82 62"/></g></symbol>
+  <symbol id="fl-orchid" viewBox="0 0 120 120"><g fill="currentColor">
+    <ellipse cx="60" cy="30" rx="11" ry="20" opacity=".55"/><ellipse cx="34" cy="44" rx="20" ry="11" opacity=".55" transform="rotate(-28 34 44)"/><ellipse cx="86" cy="44" rx="20" ry="11" opacity=".55" transform="rotate(28 86 44)"/><ellipse cx="40" cy="74" rx="14" ry="10" opacity=".7" transform="rotate(-38 40 74)"/><ellipse cx="80" cy="74" rx="14" ry="10" opacity=".7" transform="rotate(38 80 74)"/>
+    <path d="M60 58 C48 58 44 74 48 88 C52 100 68 100 72 88 C76 74 72 58 60 58 Z"/><circle cx="60" cy="56" r="6"/></g></symbol>
+  <symbol id="fl-spiderlily" viewBox="0 0 120 120">
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><g>
+      <path id="slp" d="M60 60 C60 40 52 26 40 18 C50 30 50 40 54 46"/><use href="#slp" transform="rotate(60 60 60)"/><use href="#slp" transform="rotate(120 60 60)"/><use href="#slp" transform="rotate(180 60 60)"/><use href="#slp" transform="rotate(240 60 60)"/><use href="#slp" transform="rotate(300 60 60)"/></g>
+      <g stroke-width="1.5" opacity=".85"><path id="sls" d="M60 60 C66 38 72 22 78 12"/><use href="#sls" transform="rotate(60 60 60)"/><use href="#sls" transform="rotate(120 60 60)"/><use href="#sls" transform="rotate(180 60 60)"/><use href="#sls" transform="rotate(240 60 60)"/><use href="#sls" transform="rotate(300 60 60)"/></g></g>
+    <g fill="currentColor"><circle cx="78" cy="12" r="2.4"/><circle cx="78" cy="12" r="2.4" transform="rotate(60 60 60)"/><circle cx="78" cy="12" r="2.4" transform="rotate(120 60 60)"/><circle cx="78" cy="12" r="2.4" transform="rotate(180 60 60)"/><circle cx="78" cy="12" r="2.4" transform="rotate(240 60 60)"/><circle cx="78" cy="12" r="2.4" transform="rotate(300 60 60)"/><circle cx="60" cy="60" r="4.5"/></g></symbol>
+  <symbol id="ic-crown" viewBox="0 0 24 24"><path d="M3 8 L6.5 12 L12 5 L17.5 12 L21 8 L19.5 19 L4.5 19 Z" fill="currentColor"/><circle cx="3" cy="7" r="1.6" fill="currentColor"/><circle cx="21" cy="7" r="1.6" fill="currentColor"/><circle cx="12" cy="3.4" r="1.7" fill="currentColor"/></symbol>
+  <symbol id="ic-orn" viewBox="0 0 24 24"><path d="M12 2 C13 7 17 11 22 12 C17 13 13 17 12 22 C11 17 7 13 2 12 C7 11 11 7 12 2 Z" fill="currentColor"/></symbol>
+</defs></svg>
+
+<div class="wrap" id="garden">
+  <header>
+    <div class="kicker">For Laurie &middot; The Garden of Seven</div>
+    <h1>The Birthday Arcana</h1>
+    <div class="sub">a tarot draw &amp; art exchange</div>
+    <div class="dates"><b>June 4th to 5th, 2026</b></div>
+    <div class="divider"><span class="line"></span><svg><use href="#ic-orn"/></svg><span class="line"></span></div>
+  </header>
+
+  <div class="how">
+    <b>HOW THE DECK WORKS</b>
+    <span class="step"><span class="num">I.</span> Find your flower below and tap it.</span>
+    <span class="step"><span class="num">II.</span> The deck deals you a card, your fortune for the year, and names a sister.</span>
+    <span class="step"><span class="num">III.</span> Create an image in the spirit of your card, featuring her or one of her companions. Bring it to the celebration, June 4th to 5th. 🖤</span>
+  </div>
+
+  <div class="hero-wrap">
+    <div class="crown-label"><svg class="crown"><use href="#ic-crown"/></svg><div class="bd">The Birthday Witch</div></div>
+    <button class="card" data-member="Laurie" style="--accent:#e7689b">
+      <svg class="bloom"><use href="#fl-peony"/></svg><h3>Laurie</h3><div class="flower-name">Pink Peony</div>
+      <span class="swatch"><span class="dot"></span>Pink</span><div class="hint">Tap to draw</div>
+    </button>
+  </div>
+
+  <div class="grid">
+    <button class="card" data-member="Sarah" style="--accent:#9b6cff"><svg class="bloom"><use href="#fl-morningglory"/></svg><h3>Sarah</h3><div class="flower-name">Morning Glory</div><span class="swatch"><span class="dot"></span>Purple</span><div class="hint">Tap to draw</div></button>
+    <button class="card" data-member="Annie" style="--accent:#2bc4b6"><svg class="bloom"><use href="#fl-peony"/></svg><h3>Annie</h3><div class="flower-name">Peonies</div><span class="swatch"><span class="dot"></span>Teal</span><div class="hint">Tap to draw</div></button>
+    <button class="card" data-member="Elle" style="--accent:#4fc46b"><svg class="bloom"><use href="#fl-lily"/></svg><h3>Elle</h3><div class="flower-name">Lily</div><span class="swatch"><span class="dot"></span>Green</span><div class="hint">Tap to draw</div></button>
+    <button class="card" data-member="Aly" style="--accent:#c2243a"><svg class="bloom"><use href="#fl-rose"/></svg><h3>Aly</h3><div class="flower-name">Rose</div><span class="swatch"><span class="dot"></span>Burgundy</span><div class="hint">Tap to draw</div></button>
+    <button class="card" data-member="G" style="--accent:#ff8765"><svg class="bloom"><use href="#fl-orchid"/></svg><h3>G</h3><div class="flower-name">Orchid</div><span class="swatch"><span class="dot"></span>Coral</span><div class="hint">Tap to draw</div></button>
+    <button class="card" data-member="Stephi" style="--accent:#d11d2c"><svg class="bloom"><use href="#fl-spiderlily"/></svg><h3>Stephi</h3><div class="flower-name">Spider Lily</div><span class="swatch"><span class="dot"></span>Red</span><div class="hint">Tap to draw</div></button>
+  </div>
+
+  <footer>
+    <div class="line"></div>
+    <p>Seven blooms, one garden. The cards know who you're for.</p>
+  </footer>
+</div>
+
+<div class="reveal" id="reveal" role="dialog" aria-modal="true">
+  <button class="reveal-back" id="revealBack">&#8592; Return to the garden</button>
+  <div class="reveal-inner">
+    <svg class="reveal-bloom"><use id="revealUse" href="#fl-peony"/></svg>
+    <div class="reveal-who" id="revealWho">Sarah</div>
+    <div class="r-label">Your Fortune</div>
+    <div class="reveal-card" id="revealCard">?</div>
+    <div class="reveal-fortune" id="revealFortune"></div>
+    <div class="reveal-div"><span class="l"></span><svg><use href="#ic-orn"/></svg><span class="l"></span></div>
+    <div class="r-label">Create For</div>
+    <div class="reveal-to" id="revealTo">?</div>
+    <div class="reveal-note" id="revealNote">featuring her or a companion</div>
+    <div class="reveal-instr">Make an image in the spirit of your card.<br>Bring it to the celebration, June 4th to 5th.</div>
+  </div>
+</div>
+
+<script>
+  const CARDS = [
+    {n:"The Sun",            f:"A year lit from the inside, joy that asks no permission."},
+    {n:"The Star",           f:"Hope that survives the dark and wishes that finally land."},
+    {n:"The Empress",        f:"Abundance, creativity, and being adored without earning it."},
+    {n:"The Moon",           f:"Trust your intuition this year. The dreams are pointing somewhere."},
+    {n:"The High Priestess", f:"Your quiet knowing is power. Guard your mysteries."},
+    {n:"The Lovers",         f:"To be chosen fully by something worth choosing back."},
+    {n:"Strength",           f:"The gentle kind of power, the beast that lies down for your hand."},
+    {n:"Wheel of Fortune",   f:"The luck turns your way and the momentum is yours."},
+    {n:"The World",          f:"Arrival. A full circle. The year you finally land."},
+    {n:"The Magician",       f:"You make things real this year. Your will shapes the room."},
+    {n:"Temperance",         f:"Peace that holds and the right mix in your cup."},
+    {n:"Death",              f:"The old skin comes off clean and what's next belongs to you."},
+    {n:"The Chariot",        f:"You move forward this year and nothing drags behind you."}
+  ];
+  const MEMBER = {
+    Laurie:{flower:"#fl-peony",        accent:"#e7689b"},
+    Sarah: {flower:"#fl-morningglory", accent:"#9b6cff"},
+    Annie: {flower:"#fl-peony",        accent:"#2bc4b6"},
+    Elle:  {flower:"#fl-lily",         accent:"#4fc46b"},
+    Aly:   {flower:"#fl-rose",         accent:"#c2243a"},
+    G:     {flower:"#fl-orchid",       accent:"#ff8765"},
+    Stephi:{flower:"#fl-spiderlily",   accent:"#d11d2c"}
+  };
+  const COMPANIONS = {
+    Sarah: ["Thorne","Rowan"],
+    Annie: ["Ivar","Vale","Silas"],
+    Elle:  ["Milo","Nox"],
+    Aly:   ["Caleb","Adrien","Jay"],
+    G:     ["Niles","Enzo"],
+    Stephi:["Elias"],
+    Laurie:["Leo"]
+  };
+  function companionPhrase(name){
+    const c = COMPANIONS[name] || [];
+    if(!c.length) return "featuring her";
+    let list;
+    if(c.length === 1) list = c[0];
+    else if(c.length === 2) list = c[0] + " or " + c[1];
+    else list = c.slice(0,-1).join(", ") + ", or " + c[c.length-1];
+    return "featuring her or/and " + list;
+  }
+  // secret pairings, encoded so they don't show on the page. format: name -> [cardIndex, recipient]
+  const ASSIGN = JSON.parse(atob("eyJTYXJhaCI6WzEsIkxhdXJpZSJdLCJBbm5pZSI6WzIsIlNhcmFoIl0sIkVsbGUiOlszLCJTdGVwaGkiXSwiQWx5IjpbMTEsIkVsbGUiXSwiRyI6WzAsIkFseSJdLCJTdGVwaGkiOls0LCJBbm5pZSJdLCJMYXVyaWUiOls4LCJHIl19"));
+  const NAMES = Object.keys(MEMBER);
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const reveal = document.getElementById("reveal");
+  const rWho = document.getElementById("revealWho");
+  const rCard = document.getElementById("revealCard");
+  const rFort = document.getElementById("revealFortune");
+  const rTo = document.getElementById("revealTo");
+  const rNote = document.getElementById("revealNote");
+  const rUse = document.getElementById("revealUse");
+  let busy = false, iv = null;
+
+  function open(member){
+    const m = MEMBER[member], a = ASSIGN[member];
+    reveal.style.setProperty("--accent", m.accent);
+    rUse.setAttribute("href", m.flower);
+    rWho.textContent = member;
+    rCard.textContent = "?"; rFort.textContent = ""; rTo.textContent = "?"; rNote.textContent = "";
+    reveal.classList.remove("landed");
+    reveal.classList.add("active");
+    document.body.style.overflow = "hidden";
+
+    const land = ()=>{
+      rCard.textContent = CARDS[a[0]].n;
+      rFort.textContent = CARDS[a[0]].f;
+      rTo.textContent = a[1];
+      rNote.textContent = companionPhrase(a[1]);
+      reveal.classList.add("landed");
+      busy = false;
+    };
+    if(reduced){ land(); return; }
+    busy = true;
+    let ticks = 0;
+    iv = setInterval(()=>{
+      rCard.textContent = CARDS[(Math.random()*CARDS.length)|0].n;
+      rTo.textContent = NAMES[(Math.random()*NAMES.length)|0];
+      if(++ticks > 13){ clearInterval(iv); land(); }
+    }, 80);
+  }
+  function close(){
+    if(iv) clearInterval(iv);
+    busy = false;
+    reveal.classList.remove("active","landed");
+    document.body.style.overflow = "";
+  }
+
+  document.querySelectorAll(".card").forEach(c=>{
+    c.addEventListener("click", ()=>{ if(!busy) open(c.dataset.member); });
+  });
+  document.getElementById("revealBack").addEventListener("click", close);
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape") close(); });
+</script>
+</body>
+</html>
